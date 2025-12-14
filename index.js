@@ -60,5 +60,18 @@ client.on("interactionCreate", async interaction => {
         return interaction.reply({ content: "❌ Invalid license key.", ephemeral: true });
       }
 
-      if (licenses[key].used) {
-        return inte
+            if (licenses[key].used) {
+        return interaction.reply({ content: "❌ License already used.", ephemeral: true });
+      }
+
+      licenses[key].used = true;
+      fs.writeFileSync(licensesPath, JSON.stringify(licenses, null, 2));
+
+      await interaction.reply({ content: "✅ License verified successfully!", ephemeral: true });
+    }
+  }
+});
+
+client.login(process.env.TOKEN);
+
+
